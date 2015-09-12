@@ -14,21 +14,21 @@ parser.add_argument('end', type=int, help='end date is required', required=True)
 
 
 class Backpack(Resource):
-    # @swagger.operation(
-    #     notes='This will recommend the best backpack based on requirements.  The following query params are REQUIRED:  torso, waist, gender, start(miliseconds), end(miliseconds)',
-    #     responseClass=BackpackModel,
-    #     nickname='recommend',
-    #     responseMessages=[
-    #         {
-    #             "code": 201,
-    #             "message": "Created. The URL of the created blueprint should be in the Location header"
-    #         },
-    #         {
-    #             "code": 400,
-    #             "message": "Required fields are missing."
-    #         }
-    #     ]
-    # )
+    @swagger.operation(
+        notes='This will recommend the best backpack based on requirements.  The following query params are REQUIRED:  torso, waist, gender, start(miliseconds), end(miliseconds)',
+        responseClass=BackpackModel,
+        nickname='recommend',
+        responseMessages=[
+            {
+                "code": 201,
+                "message": "Created. The URL of the created blueprint should be in the Location header"
+            },
+            {
+                "code": 400,
+                "message": "Required fields are missing."
+            }
+        ]
+    )
     @marshal_with(BackpackModel.resource_fields, envelope='backpacks')
     def get(self):
         parser.parse_args()
