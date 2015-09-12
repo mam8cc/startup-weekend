@@ -3,6 +3,7 @@ from flask.ext.restful import Api
 from flask.ext.cors import CORS
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_restful_swagger import swagger
+from resources.Backpack import Backpack as BackpackResource
 from sqlalchemy.orm import relationship
 
 app = Flask(__name__, static_url_path='')
@@ -10,10 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://eglwyuhzapnpqc:WC
 db = SQLAlchemy(app)
 CORS(app)
 
-@swagger.model
 class Backpack(db.Model):
-    "The main event!"
-    pass
 
     __tablename__ = 'backpack'
 
@@ -28,6 +26,7 @@ class Backpack(db.Model):
     # gender_id = db.Column(db.ForeignKey())
     # frame_type_id = db.Column(db.ForeignKey())
     # brand_id = db.Column(db.ForeignKey())
+
 
 
 class WaistDimension(db.Model):
@@ -54,8 +53,7 @@ class TorsoDimension(db.Model):
 
 
 api = swagger.docs(Api(app), apiVersion='0.1')
-
-api.add_resource(Backpack, '/backpack')
+api.add_resource(BackpackResource, '/backpack')
 
 if __name__ == '__main__':
     app.run(debug=True)
