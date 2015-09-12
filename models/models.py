@@ -6,6 +6,28 @@ from sqlalchemy.orm import relationship
 db = SQLAlchemy()
 
 @swagger.model
+
+
+class Brand(db.Model):
+    __tablename__ = 'brand'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+class Gender(db.Model):
+    __tablename__ = 'gender'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+class FrameType(db.Model):
+    __tablename__ = 'frame_type'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+class Color(db.Model):
+    __tablename__ = 'color'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
 class Backpack(db.Model):
 
     __tablename__ = 'backpack'
@@ -16,21 +38,17 @@ class Backpack(db.Model):
     url = db.Column(db.String)
     url_img = db.Column(db.String)
 
-    # color_id = db.Column(db.ForeignKey())
-    # gender_id = db.Column(db.ForeignKey())
-    # frame_type_id = db.Column(db.ForeignKey())
-    # brand_id = db.Column(db.ForeignKey())
+    gender_id = db.Column(db.ForeignKey("gender.id"))
+    frame_type_id = db.Column(db.ForeignKey("frametype.id"))
+    brand_id = db.Column(db.ForeignKey("brand.id"))
 
     resource_fields = {
         'id': fields.Integer,
         'name': fields.String,
-        'weight': fields.Integer,
-        'volume': fields.Integer,
         'price': fields.Float,
         'url': fields.String,
         'url_img': fields.String
     }
-
 
 class BackpackSize(db.Model):
     __tablename__ = 'backpack_size'
@@ -46,7 +64,16 @@ class BackpackSize(db.Model):
 
     backpack_id = db.Column(db.ForeignKey('backpack.id'))
 
+    backpack = relationship('Backpack', foreign_keys=[backpack_id], lazy='joined')
+
+class BackpackColorXref(db.Model):
+    __tablename__ = 'backpack_color'
+
+    backpack_id = db.Column(db.ForeignKey('backpack.id'), primary_key=True)
     backpack = relationship('Backpack', lazy='joined')
+
+    color_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
+    color = relationship('Color', lazy='joined')
 
 class Gear(db.Model):
     __tablename__ = 'gear'
@@ -57,4 +84,5 @@ class Gear(db.Model):
     length = db.Column(db.Float)
     width = db.Column(db.Float)
     height = db.Column(db.Float)
+
 
