@@ -1,7 +1,7 @@
 from flask import request
 from flask.ext.restful import Resource, marshal_with, reqparse
 from flask.ext.restful_swagger import swagger
-from models.models import Backpack
+from models.models import Backpack as BackpackModel
 
 
 parser = reqparse.RequestParser(bundle_errors=True)
@@ -16,7 +16,7 @@ class Backpack(Resource):
 
     @swagger.operation(
         notes='This will recommend the best backpack based on requirements.',
-        responseClass=Backpack,
+        responseClass=BackpackModel,
         nickname='recommend',
         responseMessages=[
             {
@@ -29,7 +29,7 @@ class Backpack(Resource):
             }
           ]
         )
-    @marshal_with(Backpack.resource_fields)
+    @marshal_with(BackpackModel.resource_fields, envelope='backpacks')
     def get(self):
         args = parser.parse_args()
         torso_dimension = request.args.get('torso', '')
@@ -37,6 +37,9 @@ class Backpack(Resource):
         gender = request.args.get('gender', '')
         start_date = request.args.get('start', '')
         end_date = request.args.get('end', '')
+
+        BackpackModel.query.all()
+
 
 
 
