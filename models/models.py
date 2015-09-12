@@ -45,8 +45,8 @@ class Backpack(db.Model):
         'id': fields.Integer,
         'name': fields.String,
         'price': fields.Float,
-        'url': fields.Url,
-        'url_img': fields.Url
+        'url': fields.String,
+        'url_img': fields.String
     }
 
 class BackpackSize(db.Model):
