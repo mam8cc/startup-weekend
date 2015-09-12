@@ -1,4 +1,4 @@
-from models.models import Color, BackpackColorXref, Backpack, Gender, FrameType, Brand
+from models.models import Color, BackpackColorXref, Backpack, Gender, FrameType, Brand, BackpackSize
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
@@ -7,7 +7,7 @@ engine = create_engine('postgresql+psycopg2://roabsgdavgefbn:-nEpKZ4MYIgFr2nD4v-
 db_session = scoped_session(sessionmaker(bind=engine))
 
 gender = Gender(
-    name='M'
+    name='F'
 )
 db_session.add(gender)
 db_session.commit()
@@ -19,15 +19,15 @@ db_session.add(frame_type)
 db_session.commit()
 
 brand = Brand(
-    name='Patagonia'
+    name='Gregory Deva'
 )
 db_session.add(brand)
 db_session.commit()
 
 backpack = Backpack(
-    name='PATAGONIA ASCENSIONIST PACK 45L',
-    price=179,
-    url='http://www.patagonia.com/us/product/ascensionist-pack-45-liters?p=48000-0',
+    name='Gregory Deva 60 Pack',
+    price=299,
+    url='http://www.rei.com/product/881007/gregory-deva-60-pack-womens',
     gender=gender,
     frame_type=frame_type,
     brand=brand
@@ -36,14 +36,25 @@ backpack = Backpack(
 db_session.add(backpack)
 db_session.commit()
 
-color = Color(name='Chartreuse')
+color = Color(name='Edgyptian Blue')
 db_session.add(color)
 db_session.commit()
 
 backpackColor = BackpackColorXref(
     color=color,
-    url_image='http://www.patagonia.com/tsimages/48000_CHRT.fpx?wid=750&hei=750&bgcolor=FFFFFF&ftr=6&cvt=jpeg,scans=progressive',
+    url_img='http://www.patagonia.com/tsimages/48000_CHRT.fpx?wid=750&hei=750&bgcolor=FFFFFF&ftr=6&cvt=jpeg,scans=progressive',
     backpack=backpack
 )
 db_session.add(backpackColor)
 db_session.commit()
+
+backpackSize = BackpackSize(
+    size_name='XS',
+    torso_range_low=14,
+    torso_range_high=16,
+    waist_range_low=24,
+    waist_range_high=26,
+    weight_oz=74,
+    volume_liter=56,
+    backpack=backpack
+)
