@@ -128,6 +128,7 @@ class Gear(db.Model):
     length = db.Column(db.Float)
     width = db.Column(db.Float)
     height = db.Column(db.Float)
+    price = db.Column(db.Float)
 
 class Material(db.Model):
     __tablename__ = 'material'
