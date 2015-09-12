@@ -4,6 +4,7 @@ from flask.ext.cors import CORS
 from flask_restful_swagger import swagger
 from models.models import db
 from resources.Backpack import Backpack as BackpackResource
+from resources.colors import Colors as ColorResource
 import sqlalchemy
 
 app = Flask(__name__, static_url_path='')
@@ -12,6 +13,7 @@ db.init_app(app)
 CORS(app, resources=r'/*', allow_headers='Content-Type')
 api = swagger.docs(Api(app), apiVersion='0.1')
 api.add_resource(BackpackResource, '/backpack')
+api.add_resource(ColorResource, '/backpack/<int:backpack_id>/colors')
 
 if __name__ == '__main__':
     app.run(debug=True)

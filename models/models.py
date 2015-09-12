@@ -35,12 +35,13 @@ class Backpack(db.Model):
     name = db.Column(db.String)
     price = db.Column(db.Float)
     url = db.Column(db.String)
+    colors = []
 
     gender_id = db.Column(db.ForeignKey("gender.id"))
     frame_type_id = db.Column(db.ForeignKey("frame_type.id"))
     brand_id = db.Column(db.ForeignKey("brand.id"))
 
-    gender = relationship('Gender', foreign_keys=[gender_id], lazy='joined')
+    gender = relationship('Gender', foreign_keys=[gender_id])
     frame_type = relationship('FrameType', foreign_keys=[frame_type_id], lazy='joined')
     brand = relationship('Brand', foreign_keys=[brand_id], lazy='joined')
 
@@ -60,6 +61,16 @@ class Backpack(db.Model):
         'name': fields.String(attribute='name')
     }
 
+    colors_fields = {
+        'id': fields.Integer(attribute='id'),
+        'name': fields.String(attribute='name')
+    }
+
+    colors_xref_fields = {
+        'url_img': fields.String,
+        'color': fields.Nested(colors_fields)
+    }
+
     resource_fields = {
         'id': fields.Integer,
         'name': fields.String,
@@ -67,7 +78,8 @@ class Backpack(db.Model):
         'url': fields.String,
         'gender': fields.Nested(gender_fields),
         'frame_type': fields.Nested(frame_fields),
-        'brand': fields.Nested(brand_fields)
+        'brand': fields.Nested(brand_fields),
+        'colors': fields.Nested(colors_xref_fields)
     }
 
 class BackpackSize(db.Model):
@@ -80,7 +92,7 @@ class BackpackSize(db.Model):
     waist_range_low = db.Column(db.Float)
     waist_range_high = db.Column(db.Float)
     weight_oz = db.Column(db.Float)
-    volume_liter = db.Column(db.Integer)
+    volumn_liter = db.Column(db.Integer)
 
     backpack_id = db.Column(db.ForeignKey('backpack.id'))
 
@@ -96,6 +108,16 @@ class BackpackColorXref(db.Model):
 
     color_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
     color = relationship('Color', lazy='joined')
+
+    colors_fields = {
+        'id': fields.Integer(attribute='id'),
+        'name': fields.String(attribute='name')
+    }
+
+    resource_fields = {
+        'url_image': fields.String,
+        'color': fields.Nested(color)
+    }
 
 class Gear(db.Model):
     __tablename__ = 'gear'
