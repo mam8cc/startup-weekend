@@ -14,7 +14,7 @@ class Backpack(db.Model):
     name = db.Column(db.String)
     weight = db.Column(db.Integer)
     volume = db.Column(db.Integer)
-    price = db.Column(db.Integer)
+    price = db.Column(db.Float)
     url = db.Column(db.String)
 
     # color_id = db.Column(db.ForeignKey())
@@ -27,7 +27,7 @@ class Backpack(db.Model):
         'name': fields.String,
         'weight': fields.Integer,
         'volume': fields.Integer,
-        'price': fields.Integer,
+        'price': fields.Float,
         'url': fields.String
     }
 
