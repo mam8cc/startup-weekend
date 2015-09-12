@@ -6,9 +6,10 @@ from sqlalchemy.orm import scoped_session
 engine = create_engine('postgresql+psycopg2://roabsgdavgefbn:-nEpKZ4MYIgFr2nD4v-alYOxjt@ec2-107-21-105-116.compute-1.amazonaws.com:5432/d4p18lbmbjfe21')
 db_session = scoped_session(sessionmaker(bind=engine))
 
-gender = Gender(
-    name='F'
-)
+# gender = Gender(
+#     name='F'
+# )
+gender = Gender.query.filter(name='F').first()
 db_session.add(gender)
 db_session.commit()
 
