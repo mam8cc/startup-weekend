@@ -107,4 +107,48 @@ class Gear(db.Model):
     width = db.Column(db.Float)
     height = db.Column(db.Float)
 
+class Material(db.Model):
+    __tablename__ = 'material'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+class Category(db.Model):
+    __tablename__ = 'category'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+class Package(db.Model):
+    __tablename__ = 'package'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+class GearMaterialXref(db.Model):
+    __tablename__ = 'gear_material'
+
+    gear_id = db.Column(db.ForeignKey('gear.id'), primary_key=True)
+    gear = relationship('Gear', foreign_keys=[gear_id], lazy='joined')
+
+    material_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
+    material = relationship('Color', foreign_keys=[material_id], lazy='joined')
+
+class GearCategoryXref(db.Model):
+    __tablename__ = 'gear_category'
+
+    gear_id = db.Column(db.ForeignKey('gear.id'), primary_key=True)
+    gear = relationship('Gear', foreign_keys=[gear_id], lazy='joined')
+
+    category_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
+    category = relationship('Color', foreign_keys=[category_id], lazy='joined')
+
+class GearPackageXref(db.Model):
+    __tablename__ = 'gear_package'
+
+    gear_id = db.Column(db.ForeignKey('gear.id'), primary_key=True)
+    gear = relationship('Gear', foreign_keys=[gear_id], lazy='joined')
+
+    package_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
+    package = relationship('Color', foreign_keys=[package_id], lazy='joined')
 
