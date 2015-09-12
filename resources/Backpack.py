@@ -42,7 +42,6 @@ class Backpack(Resource):
 
 
 
-
     def post(self):
         request_data = request.get_json()
 

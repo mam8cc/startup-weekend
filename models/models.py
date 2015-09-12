@@ -38,15 +38,38 @@ class Backpack(db.Model):
     url_img = db.Column(db.String)
 
     gender_id = db.Column(db.ForeignKey("gender.id"))
-    frame_type_id = db.Column(db.ForeignKey("frametype.id"))
+    frame_type_id = db.Column(db.ForeignKey("frame_type.id"))
     brand_id = db.Column(db.ForeignKey("brand.id"))
+
+    gender = relationship('Gender', foreign_keys=[gender_id], lazy='joined')
+    frame_type = relationship('FrameType', foreign_keys=[frame_type_id], lazy='joined')
+    brand = relationship('Brand', foreign_keys=[brand_id], lazy='joined')
+
+
+    gender_fields = {
+        'id': fields.Integer(attribute='id'),
+        'name': fields.String(attribute='name')
+    }
+
+    frame_fields = {
+        'id': fields.Integer(attribute='id'),
+        'name': fields.String(attribute='name')
+    }
+
+    brand_fields = {
+        'id': fields.Integer(attribute='id'),
+        'name': fields.String(attribute='name')
+    }
 
     resource_fields = {
         'id': fields.Integer,
         'name': fields.String,
         'price': fields.Float,
         'url': fields.String,
-        'url_img': fields.String
+        'url_img': fields.String,
+        'gender': fields.Nested(gender_fields),
+        'frame_type': fields.Nested(frame_fields),
+        'brand': fields.Nested(brand_fields)
     }
 
 class BackpackSize(db.Model):
