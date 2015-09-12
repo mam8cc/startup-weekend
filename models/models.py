@@ -70,10 +70,10 @@ class BackpackColorXref(db.Model):
     __tablename__ = 'backpack_color'
 
     backpack_id = db.Column(db.ForeignKey('backpack.id'), primary_key=True)
-    backpack = relationship('Backpack', lazy='joined')
+    backpack = relationship('Backpack', foreign_keys=[backpack_id], lazy='joined')
 
     color_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
-    color = relationship('Color', lazy='joined')
+    color = relationship('Color', foreign_keys=[color_id], lazy='joined')
 
 class Gear(db.Model):
     __tablename__ = 'gear'
