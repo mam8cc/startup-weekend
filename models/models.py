@@ -5,16 +5,14 @@ from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
-@swagger.model
+class Gender(db.Model):
+    __tablename__ = 'gender'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
 
 
 class Brand(db.Model):
     __tablename__ = 'brand'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-
-class Gender(db.Model):
-    __tablename__ = 'gender'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
@@ -28,6 +26,7 @@ class Color(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
+@swagger.model
 class Backpack(db.Model):
 
     __tablename__ = 'backpack'
@@ -46,8 +45,8 @@ class Backpack(db.Model):
         'id': fields.Integer,
         'name': fields.String,
         'price': fields.Float,
-        'url': fields.String,
-        'url_img': fields.String
+        'url': fields.Url,
+        'url_img': fields.Url
     }
 
 class BackpackSize(db.Model):
@@ -60,7 +59,7 @@ class BackpackSize(db.Model):
     waist_range_low = db.Column(db.Float)
     waist_range_high = db.Column(db.Float)
     weight_oz = db.Column(db.Float)
-    volumn_liter = db.Column(db.Integer)
+    volume_liter = db.Column(db.Integer)
 
     backpack_id = db.Column(db.ForeignKey('backpack.id'))
 
@@ -70,7 +69,7 @@ class BackpackColorXref(db.Model):
     __tablename__ = 'backpack_color'
 
     backpack_id = db.Column(db.ForeignKey('backpack.id'), primary_key=True)
-    backpack = relationship('Backpack', lazy='joined')
+    backpack = relationship('Backpack', foreign_keys=[backpack_id], lazy='joined')
 
     color_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
     color = relationship('Color', lazy='joined')

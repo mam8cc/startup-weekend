@@ -38,7 +38,7 @@ class Backpack(Resource):
         start_date = request.args.get('start', '')
         end_date = request.args.get('end', '')
 
-        BackpackModel.query.all()
+        return BackpackModel.query.all()
 
 
 
