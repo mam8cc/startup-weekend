@@ -10,7 +10,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://eglwyuhzapnpqc:WC
 db = SQLAlchemy(app)
 CORS(app)
 
+@swagger.model
 class Backpack(db.Model):
+    "The main event!"
+    pass
+
     __tablename__ = 'backpack'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -52,7 +56,6 @@ class TorsoDimension(db.Model):
 api = swagger.docs(Api(app), apiVersion='0.1')
 
 api.add_resource(Backpack, '/backpack')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
