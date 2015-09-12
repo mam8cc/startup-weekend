@@ -35,7 +35,6 @@ class Backpack(db.Model):
     name = db.Column(db.String)
     price = db.Column(db.Float)
     url = db.Column(db.String)
-    url_img = db.Column(db.String)
 
     gender_id = db.Column(db.ForeignKey("gender.id"))
     frame_type_id = db.Column(db.ForeignKey("frame_type.id"))
@@ -66,7 +65,6 @@ class Backpack(db.Model):
         'name': fields.String,
         'price': fields.Float,
         'url': fields.String,
-        'url_img': fields.String,
         'gender': fields.Nested(gender_fields),
         'frame_type': fields.Nested(frame_fields),
         'brand': fields.Nested(brand_fields)
@@ -90,6 +88,8 @@ class BackpackSize(db.Model):
 
 class BackpackColorXref(db.Model):
     __tablename__ = 'backpack_color'
+
+    url_img = db.Column(db.String)
 
     backpack_id = db.Column(db.ForeignKey('backpack.id'), primary_key=True)
     backpack = relationship('Backpack', foreign_keys=[backpack_id], lazy='joined')
