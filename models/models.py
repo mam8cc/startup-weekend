@@ -13,7 +13,8 @@ gear_fields = {
     'width': fields.Integer,
     'height': fields.Integer,
     'price': fields.Float,
-    'url': fields.String
+    'url': fields.String,
+    'url_img': fields.String
 }
 
 category_fields = {
