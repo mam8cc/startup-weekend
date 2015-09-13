@@ -124,13 +124,25 @@ class Gear(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    weight = db.Column(db.Float)
-    length = db.Column(db.Float)
-    width = db.Column(db.Float)
-    height = db.Column(db.Float)
+    weight = db.Column(db.Integer)
+    length = db.Column(db.Integer)
+    width = db.Column(db.Integer)
+    height = db.Column(db.Integer)
     price = db.Column(db.Float)
     url = db.Column(db.String)
     url_img = db.Column(db.String)
+
+    resource_fields = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'weight': fields.Integer,
+        'length': fields.Integer,
+        'width': fields.Integer,
+        'height': fields.Integer,
+        'price': fields.Float,
+        'url': fields.String,
+        'url_img': fields.String
+    }
 
 class Material(db.Model):
     __tablename__ = 'material'
@@ -150,6 +162,11 @@ class Package(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
 
+    resource_fields = {
+        'id': fields.Integer(attribute='id'),
+        'name': fields.String(attribute='name')
+    }
+
 class GearMaterialXref(db.Model):
     __tablename__ = 'gear_material'
 
@@ -168,6 +185,8 @@ class GearCategoryXref(db.Model):
     category_id = db.Column(db.ForeignKey('category.id'), primary_key=True)
     category = relationship('Category', foreign_keys=[category_id], lazy='joined')
 
+
+
 class GearPackageXref(db.Model):
     __tablename__ = 'gear_package'
 
@@ -177,3 +196,17 @@ class GearPackageXref(db.Model):
     package_id = db.Column(db.ForeignKey('package.id'), primary_key=True)
     package = relationship('Package', foreign_keys=[package_id], lazy='joined')
 
+    gear_fields = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'weight': fields.Integer,
+        'length': fields.Integer,
+        'width': fields.Integer,
+        'height': fields.Integer,
+        'price': fields.Float,
+        'url': fields.String
+    }
+
+    resource_fields = {
+        'gear': fields.Nested(gear_fields)
+    }
