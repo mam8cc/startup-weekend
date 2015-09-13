@@ -1,64 +1,85 @@
-from models.models import Category, Gear, GearCategoryXref, Backpack
-from sqlalchemy import create_engine
+from models.models import Category, Gear, GearCategoryXref, Material, GearMaterialXref, Package, GearPackageXref
+from pip._vendor.distlib.compat import raw_input
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
 engine = create_engine('postgresql+psycopg2://roabsgdavgefbn:-nEpKZ4MYIgFr2nD4v-alYOxjt@ec2-107-21-105-116.compute-1.amazonaws.com:5432/d4p18lbmbjfe21')
 db_session = scoped_session(sessionmaker(bind=engine))
-categories = db_session.query(Category).filter(Category.name=="Food").all()
-print(len(categories))
 
-# category = print(Category.query.filter(Category.name == "Food"))
-'''
-gear = Gear(
-    name='Mountain House: Chicken Breast and Mashed Potatoes',
-    price=9.99,
-    url='http://www.mountainhouse.com/M/product/chicken-breast.html?variant_id=38',
-    length=6,
-    width=2,
-    height=7,
-    weight=4.0
-)
-db_session.add(gear)
+category_input = raw_input('Category: ')
+category = db_session.query(Category).filter(func.lower(Category.name) == func.lower(category_input)).first()
 
-gearCategoryXref = GearCategoryXref(
-    gear = gear,
-    category=category
-)
-db_session.add(gearCategoryXref)
+if category is None:
+    category = Category(
+        name=category_input
+    )
+    db_session.add(category)
+    db_session.commit()
 
-gear = Gear(
-    name='Mountain House: Pasta Primavera',
-    price=7.49,
-    url='http://www.mountainhouse.com/M/product/pasta-primavera.html?variant_id=60',
-    length=6,
-    width=2,
-    height=7,
-    weight=5.0
-)
-db_session.add(gear)
+material_input = raw_input('Material: ')
+material = db_session.query(Material).filter(func.lower(Material.name) == func.lower(material_input)).first()
 
-gearCategoryXref = GearCategoryXref(
-    gear = gear,
-    category=category
-)
-db_session.add(gearCategoryXref)
+if material is None:
+    material = Material(
+        name=material_input
+    )
+    db_session.add(material)
+    db_session.commit()
+
+print('***GEAR DATA***')
+name = raw_input('Name: ')
+price = raw_input('Price: $')
+url = raw_input('Url: ')
+url_img = raw_input('Url Image: ')
+length = raw_input('Length: ')
+width = raw_input('Width: ')
+height = raw_input('Height: ')
+weight = raw_input('Weight: ')
 
 gear = Gear(
-    name='Mountain House: Sweet & Sour Pork with Rice',
-    price=9.29,
-    url='http://www.mountainhouse.com/M/product/sweet-sour-pork.html?variant_id=69',
-    length=6,
-    width=2,
-    height=7,
-    weight=6.0
+    name=name,
+    price=price,
+    url=url,
+    url_img=url_img,
+    length=length,
+    width=width,
+    height=height,
+    weight=weight
 )
+
 db_session.add(gear)
+db_session.commit()
 
-gearCategoryXref = GearCategoryXref(
-    gear = gear,
-    category=category
+materialXref = GearMaterialXref(
+    material=material,
+    gear=gear
 )
-db_session.add(gearCategoryXref)
 
-db_session.commit() '''
+categoryXref = GearCategoryXref(
+    category=category,
+    gear=gear
+)
+
+db_session.add(materialXref)
+db_session.add(categoryXref)
+db_session.commit()
+
+packages = db_session.query(Package).all()
+
+print('Add it to which package:')
+for package in packages:
+    print(str(package.id) + ' ' + package.name)
+
+package_selection = raw_input('Package: ')
+
+package = db_session.query(Package).get(package_selection)
+
+packageXref = GearPackageXref(
+    package=package,
+    gear=gear
+)
+db_session.add(packageXref)
+db_session.commit()
+
+print('Done!  Exiting...')
