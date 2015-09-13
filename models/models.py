@@ -5,6 +5,21 @@ from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
+gear_fields = {
+    'id': fields.Integer,
+    'name': fields.String,
+    'weight': fields.Integer,
+    'length': fields.Integer,
+    'width': fields.Integer,
+    'height': fields.Integer,
+    'price': fields.Float,
+    'url': fields.String
+}
+
+category_fields = {
+    'name': fields.String
+}
+
 class Gender(db.Model):
     __tablename__ = 'gender'
     id = db.Column(db.Integer, primary_key=True)
@@ -176,15 +191,20 @@ class GearMaterialXref(db.Model):
     material_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
     material = relationship('Color', foreign_keys=[material_id], lazy='joined')
 
+
 class GearCategoryXref(db.Model):
     __tablename__ = 'gear_category'
 
     gear_id = db.Column(db.ForeignKey('gear.id'), primary_key=True)
     gear = relationship('Gear', foreign_keys=[gear_id], lazy='joined')
 
-    category_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
-    category = relationship('Color', foreign_keys=[category_id], lazy='joined')
+    category_id = db.Column(db.ForeignKey('category.id'), primary_key=True)
+    category = relationship('Category', foreign_keys=[category_id], lazy='joined')
 
+    resource_fields = {
+        'gear': fields.Nested(gear_fields),
+        'category': fields.Nested(category_fields)
+    }
 
 
 class GearPackageXref(db.Model):
@@ -195,17 +215,6 @@ class GearPackageXref(db.Model):
 
     package_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
     package = relationship('Color', foreign_keys=[package_id], lazy='joined')
-
-    gear_fields = {
-        'id': fields.Integer,
-        'name': fields.String,
-        'weight': fields.Integer,
-        'length': fields.Integer,
-        'width': fields.Integer,
-        'height': fields.Integer,
-        'price': fields.Float,
-        'url': fields.String
-    }
 
     resource_fields = {
         'gear': fields.Nested(gear_fields)
