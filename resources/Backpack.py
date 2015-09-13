@@ -48,7 +48,7 @@ class Backpack(Resource):
         backpacks = []
 
         for backpackSize in models:
-            if backpackSize.backpack.gender.name == gender:
+            if backpackSize.backpack.gender.name == gender or backpackSize.backpack.gender.name == "Unisex" :
                 backpacks.append(backpackSize.backpack)
 
         for backpack in backpacks:

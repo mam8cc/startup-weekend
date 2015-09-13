@@ -1,5 +1,5 @@
 from flask.ext.restful import Resource, marshal_with
-from models.models import Package, GearPackageXref, Gear
+from models.models import Package, GearPackageXref, GearCategoryXref
 
 
 class Packages(Resource):
@@ -7,14 +7,19 @@ class Packages(Resource):
     def get(self):
         return Package.query.all()
 
-    @marshal_with(Gear.resource_fields)
+    @marshal_with(GearCategoryXref.resource_fields)
     def get(self, package_id):
         gear = GearPackageXref.query\
-                    .filter(GearPackageXref.package_id==package_id).all()
+            .filter(GearPackageXref.package_id==package_id)\
+            .all()
 
         package_gear = []
 
         for piece in gear:
-            package_gear.append(piece.gear)
+            package_gear.append(piece.gear_id)
 
-        return package_gear
+        gear_categories = GearCategoryXref.query\
+            .filter(GearCategoryXref.gear_id.in_(package_gear))\
+            .all()
+
+        return gear_categories
