@@ -75,4 +75,9 @@ category = Category(
     name='Organization'
 )
 db_session.add(category)
+
+category = Category(
+    name='Water Bottles'
+)
+db_session.add(category)
 db_session.commit()

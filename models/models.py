@@ -129,7 +129,8 @@ class Gear(db.Model):
     width = db.Column(db.Float)
     height = db.Column(db.Float)
     price = db.Column(db.Float)
-    url = db.Column(db.Float)
+    url = db.Column(db.String)
+    url_img = db.Column(db.String)
 
 class Material(db.Model):
     __tablename__ = 'material'
@@ -164,8 +165,8 @@ class GearCategoryXref(db.Model):
     gear_id = db.Column(db.ForeignKey('gear.id'), primary_key=True)
     gear = relationship('Gear', foreign_keys=[gear_id], lazy='joined')
 
-    category_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
-    category = relationship('Color', foreign_keys=[category_id], lazy='joined')
+    category_id = db.Column(db.ForeignKey('category.id'), primary_key=True)
+    category = relationship('Category', foreign_keys=[category_id], lazy='joined')
 
 class GearPackageXref(db.Model):
     __tablename__ = 'gear_package'
@@ -173,6 +174,6 @@ class GearPackageXref(db.Model):
     gear_id = db.Column(db.ForeignKey('gear.id'), primary_key=True)
     gear = relationship('Gear', foreign_keys=[gear_id], lazy='joined')
 
-    package_id = db.Column(db.ForeignKey('color.id'), primary_key=True)
-    package = relationship('Color', foreign_keys=[package_id], lazy='joined')
+    package_id = db.Column(db.ForeignKey('package.id'), primary_key=True)
+    package = relationship('Package', foreign_keys=[package_id], lazy='joined')
 
