@@ -130,6 +130,7 @@ class Gear(db.Model):
     height = db.Column(db.Integer)
     price = db.Column(db.Float)
     url = db.Column(db.String)
+    url_img = db.Column(db.String)
 
     resource_fields = {
         'id': fields.Integer,
@@ -139,7 +140,8 @@ class Gear(db.Model):
         'width': fields.Integer,
         'height': fields.Integer,
         'price': fields.Float,
-        'url': fields.String
+        'url': fields.String,
+        'url_img': fields.String
     }
 
 class Material(db.Model):
